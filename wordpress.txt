@@ -1,0 +1,25 @@
+<VirtualHost *:80>
+	ServerAdmin esmee@hostname.com
+	ServerName  wordpress.local
+ 
+	# Indexes + Directory Root.
+	DirectoryIndex index.php index.html
+	DocumentRoot /var/www/wordpress/
+ 
+	# BEGIN WordPress
+	<IfModule mod_rewrite.c>
+		RewriteEngine On
+		RewriteRule ^index\.php$ - [L]
+		RewriteCond $1 ^(index\.php)?$ [OR]
+		RewriteCond $1 \.(gif|jpg|png|ico|css|js)$ [NC,OR]
+		RewriteCond %{REQUEST_FILENAME} -f [OR]
+		RewriteCond %{REQUEST_FILENAME} -d
+		RewriteRule ^(.*)$ - [S=1]
+		RewriteRule . /index.php [L]
+	</IfModule>
+	# END wordpress
+ 
+	Options FollowSymLinks
+	Order allow,deny
+	Allow from all
+</VirtualHost>
